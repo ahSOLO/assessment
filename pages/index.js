@@ -1,12 +1,16 @@
-const Assessment = ({}) => {
+const Assessment = () => {
 	/**
 	 * #1. Compare two objects to determine if all of the first object’s properties are contained in the second object, and that the values of those properties match; for example, all properties of `person3` below are contained in `person1` below, and those values match, and so `person3` matches `person1` and should be `true`, while `person2` is not contained in `person3`.
 	 */
 
 	const step1 = () => {
 		const matches = ({ firstObj, secondObj }) => {
-			// Fill in solution here
-			return null
+			for (const [key, value] of Object.entries(firstObj)) {
+				if (value !== secondObj[key]) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		const person1 = { age: 25, hair: 'long', beard: true }
@@ -26,8 +30,12 @@ const Assessment = ({}) => {
 
 	const step2 = () => {
 		const remove = ({ array, values }) => {
-			// Fill in solution here
-			return null
+				return array.filter( val => {
+					if (values.includes(val)) {
+						return false;
+					}
+					return true;
+				});
 		}
 		const values = ['e', 'h', 'z']
 		const array1 = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
@@ -44,8 +52,13 @@ const Assessment = ({}) => {
 	 */
 	const step3 = () => {
 		const hex = () => {
-			// Fill in solution here; feel free to look up hexadecimal codes on the internet, but don’t look up a code solution
-			return null
+			let output = "";
+			for (let i = 0; i < 3; i++) {
+				// .toString(16) converts a number to a hexadecimal value.
+				// The RGB values are calculated separately to ensure the color generated is truly random.
+				output += Math.floor(Math.random() * 255).toString(16);
+			}
+			return output;
 		}
 
 		console.log(hex())
@@ -59,8 +72,21 @@ const Assessment = ({}) => {
 
 	const step4 = () => {
 		const luhn = input => {
-			// Fill in solution here; feel free to look up Luhn Algorithm and how it works mathematically, but don’t look up a code solution
-			return null
+			// Convert input into an array of strings representing the digits.
+			let verificationNum = input.toString().replace(/ /g, "").split("");
+			// Double every second digit, counting from the right.
+			for (let i = verificationNum.length - 2; i >= 0; i -= 2) {
+				let newDigit = Number(verificationNum[i]) * 2;
+				// If the doubled digit is greater than 9, subtract 9 (which has the same effect as adding the digits together). 
+				if (newDigit > 9) newDigit -= 9;
+				verificationNum[i] = newDigit;
+			}
+			// Convert the remaining digits back to numbers and sum them.
+			let total = 0;
+			verificationNum.forEach( val => {
+				total += Number(val);
+			})
+			return total % 10 === 0? true : false;
 		}
 
 		console.log(luhn('5221320000307276'))
@@ -71,7 +97,9 @@ const Assessment = ({}) => {
 
 	step4()
 
-	return <h1>Open developer console to read logs.</h1>
+	// return <h1>Open developer console to read logs.</h1>
 }
 
-export default Assessment
+Assessment();
+
+// export default Assessment
